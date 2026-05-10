@@ -1,0 +1,6 @@
+﻿namespace bageri_api.DTOs.Products;
+
+public class GetProductsDto : BaseProductDto
+{
+    public int Id { get; set; }
+}
