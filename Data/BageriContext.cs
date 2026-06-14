@@ -11,7 +11,7 @@ public class BageriContext(DbContextOptions options) : IdentityDbContext<User>(o
     public DbSet<OrderItem> OrderItems { get; set; }
     public DbSet<Product> Products { get; set; }
     public DbSet<SalesOrder> SalesOrders { get; set; }
-    public DbSet<Supplier> Suppliers { get; set; }
+    public DbSet<Customer> Customers { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

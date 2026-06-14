@@ -11,8 +11,8 @@ using bageri_api.Data;
 namespace bageri_api.Data.Migrations
 {
     [DbContext(typeof(BageriContext))]
-    [Migration("20260510203328_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20260614193412_NewInstall")]
+    partial class NewInstall
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -157,12 +157,12 @@ namespace bageri_api.Data.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("SupplierId")
+                    b.Property<int>("CustomerId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("CartId");
 
-                    b.HasIndex("SupplierId");
+                    b.HasIndex("CustomerId");
 
                     b.ToTable("Carts");
                 });
@@ -186,6 +186,38 @@ namespace bageri_api.Data.Migrations
                     b.HasIndex("ProductId");
 
                     b.ToTable("CartItems");
+                });
+
+            modelBuilder.Entity("bageri_api.Entities.Customer", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("AddressLine")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("City")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("CompanyName")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ContactPerson")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("PostalCode")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Customers");
                 });
 
             modelBuilder.Entity("bageri_api.Entities.OrderItem", b =>
@@ -218,14 +250,14 @@ namespace bageri_api.Data.Migrations
                     b.Property<int>("AmountInProduct")
                         .HasColumnType("INTEGER");
 
+                    b.Property<int>("CustomerId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<double>("Price")
                         .HasColumnType("REAL");
 
                     b.Property<string>("ProductName")
                         .HasColumnType("TEXT");
-
-                    b.Property<int>("SupplierId")
-                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("TimeMade")
                         .HasColumnType("TEXT");
@@ -235,7 +267,7 @@ namespace bageri_api.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("SupplierId");
+                    b.HasIndex("CustomerId");
 
                     b.ToTable("Products");
                 });
@@ -252,46 +284,11 @@ namespace bageri_api.Data.Migrations
                     b.Property<DateTime>("OrderDate")
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("SupplierId")
-                        .HasColumnType("INTEGER");
-
                     b.HasKey("SalesOrderId");
 
-                    b.HasIndex("SupplierId");
+                    b.HasIndex("CustomerId");
 
                     b.ToTable("SalesOrders");
-                });
-
-            modelBuilder.Entity("bageri_api.Entities.Supplier", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("AddressLine")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("City")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("CompanyName")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("ContactPerson")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Email")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("PostalCode")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Suppliers");
                 });
 
             modelBuilder.Entity("bageri_api.Entities.User", b =>
@@ -417,13 +414,13 @@ namespace bageri_api.Data.Migrations
 
             modelBuilder.Entity("bageri_api.Entities.Cart", b =>
                 {
-                    b.HasOne("bageri_api.Entities.Supplier", "Supplier")
+                    b.HasOne("bageri_api.Entities.Customer", "Customer")
                         .WithMany()
-                        .HasForeignKey("SupplierId")
+                        .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Supplier");
+                    b.Navigation("Customer");
                 });
 
             modelBuilder.Entity("bageri_api.Entities.CartItem", b =>
@@ -466,22 +463,24 @@ namespace bageri_api.Data.Migrations
 
             modelBuilder.Entity("bageri_api.Entities.Product", b =>
                 {
-                    b.HasOne("bageri_api.Entities.Supplier", "Supplier")
+                    b.HasOne("bageri_api.Entities.Customer", "Customer")
                         .WithMany("Products")
-                        .HasForeignKey("SupplierId")
+                        .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Supplier");
+                    b.Navigation("Customer");
                 });
 
             modelBuilder.Entity("bageri_api.Entities.SalesOrder", b =>
                 {
-                    b.HasOne("bageri_api.Entities.Supplier", "Supplier")
+                    b.HasOne("bageri_api.Entities.Customer", "Customer")
                         .WithMany()
-                        .HasForeignKey("SupplierId");
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("Supplier");
+                    b.Navigation("Customer");
                 });
 
             modelBuilder.Entity("bageri_api.Entities.Cart", b =>
@@ -489,14 +488,14 @@ namespace bageri_api.Data.Migrations
                     b.Navigation("CartItems");
                 });
 
+            modelBuilder.Entity("bageri_api.Entities.Customer", b =>
+                {
+                    b.Navigation("Products");
+                });
+
             modelBuilder.Entity("bageri_api.Entities.SalesOrder", b =>
                 {
                     b.Navigation("OrderItems");
-                });
-
-            modelBuilder.Entity("bageri_api.Entities.Supplier", b =>
-                {
-                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }

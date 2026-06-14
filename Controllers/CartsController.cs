@@ -16,19 +16,19 @@ public class CartsController(BageriContext context) : ControllerBase
     {
         try
         {
-            Supplier supplier = await context.Suppliers.FindAsync(model.SupplierId);
-            if (supplier is null) return BadRequest("Kunden existerar inte!");
+            Customer customer = await context.Customers.FindAsync(model.CustomerId);
+            if (customer is null) return BadRequest("Kunden existerar inte!");
 
             Product product = await context.Products.FindAsync(model.ProductId);
             if (product is null) return BadRequest("Produkten existerar inte!");
 
-            Cart cart = await context.Carts.Include(c => c.CartItems).SingleOrDefaultAsync(c => c.SupplierId == model.SupplierId);
+            Cart cart = await context.Carts.Include(c => c.CartItems).SingleOrDefaultAsync(c => c.CustomerId == model.CustomerId);
 
             if (cart is null)
             {
                 cart = new Cart
                 {
-                    Supplier = supplier
+                    Customer = customer
                 };
 
                 context.Carts.Add(cart);
@@ -87,10 +87,10 @@ public class CartsController(BageriContext context) : ControllerBase
         .Select(cart => new
         {
             cart.CartId,
-            cart.Supplier,
-            cart.Supplier.CompanyName,
-            cart.Supplier.ContactPerson,
-            cart.Supplier.Email,
+            cart.Customer,
+            cart.Customer.CompanyName,
+            cart.Customer.ContactPerson,
+            cart.Customer.Email,
             CreatedDate = cart.CreatedDate.ToShortDateString()
         })
         .ToListAsync();
@@ -102,73 +102,22 @@ public class CartsController(BageriContext context) : ControllerBase
     public async Task<ActionResult> FindCart(int id)
     {
         Cart cart = await context.Carts
-            .Include(c => c.Supplier)
+            .Include(c => c.Customer)
             .SingleOrDefaultAsync(c => c.CartId == id);
 
         var data = new
         {
             cart.CartId,
-            cart.Supplier,
-            cart.Supplier.CompanyName,
-            cart.Supplier.ContactPerson,
-            cart.Supplier.Email,
+            cart.Customer,
+            cart.Customer.CompanyName,
+            cart.Customer.ContactPerson,
+            cart.Customer.Email,
             CreatedDate = cart.CreatedDate.ToShortDateString()
         };
 
         return Ok(new { Success = true, StatusCode = 200, Items = "Not defined", Data = data });
     }
-    /*
-    [HttpGet("orderMade/{createdDate}")]
-    public async Task<ActionResult> FindCartByDate(DateTime createdDate)
-    {
-        Cart cart = await context.Carts
-            .SingleOrDefaultAsync(c => c.CreatedDate == createdDate);
 
-        var data = new
-        {
-            cart.CartId,
-            cart.Supplier,
-            cart.Supplier.CompanyName,
-            cart.Supplier.ContactPerson,
-            cart.Supplier.Email,
-            CreatedDate = cart.CreatedDate.ToShortDateString()
-        };
-
-        return Ok(new { Success = true, StatusCode = 200, Items = "Not defined", Data = data });
-    } */
-
-    [HttpGet("orderMade/{createdDate}")]
-    public async Task<ActionResult> FindCartByDate([FromRoute] DateTime createdDate)
-    {
-        var start = createdDate.Date;
-        var end = start.AddDays(1);
-
-        var cart = await context.Carts
-            .SingleOrDefaultAsync(c => c.CreatedDate >= start && c.CreatedDate < end);
-
-        if (cart == null)
-        {
-            return NotFound(new { Success = false, Message = "Cart not found" });
-        }
-
-        var data = new
-        {
-            cart.CartId,
-            cart.Supplier,
-            cart.Supplier.CompanyName,
-            cart.Supplier.ContactPerson,
-            cart.Supplier.Email,
-            CreatedDate = cart.CreatedDate.ToShortDateString()
-        };
-
-        return Ok(new
-        {
-            Success = true,
-            StatusCode = 200,
-            Items = "Not defined",
-            Data = data
-        });
-    }
 }
 
 

@@ -2,7 +2,7 @@
 
 public class PostProductDto
 {
-    public int SupplierId { get; set; }
+    public int CustomerId { get; set; }
     public required string ProductName { get; set; }
     public double Price { get; set; }
     public double Weight { get; set; }

@@ -14,15 +14,15 @@ public class SeedDataBase(UserManager<User> userManager, RoleManager<IdentityRol
 
     public async Task SeedSuppliers(BageriContext context)
     {
-        if (context.Suppliers.Any()) return;
+        if (context.Customers.Any()) return;
 
         var json = File.ReadAllText("Data/Json/suppliers.json");
         Console.WriteLine(json);
-        var suppliers = JsonSerializer.Deserialize<List<Supplier>>(json, options);
+        var customers = JsonSerializer.Deserialize<List<Customer>>(json, options);
 
-        if (suppliers is not null && suppliers.Count > 0)
+        if (customers is not null && customers.Count > 0)
         {
-            await context.Suppliers.AddRangeAsync(suppliers);
+            await context.Customers.AddRangeAsync(customers);
             await context.SaveChangesAsync();
         }
     }

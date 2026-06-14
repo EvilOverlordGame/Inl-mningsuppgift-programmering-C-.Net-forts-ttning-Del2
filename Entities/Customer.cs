@@ -1,6 +1,6 @@
-﻿namespace bageri_api.DTOs.Suppliers;
+﻿namespace bageri_api.Entities;
 
-public class PostSupplierDto
+public class Customer : BaseEntity
 {
     public required string CompanyName { get; set; }
     public required string PhoneNumber { get; set; }
@@ -9,4 +9,6 @@ public class PostSupplierDto
     public required string AddressLine { get; set; }
     public required string PostalCode { get; set; }
     public required string City { get; set; }
+    public List<Product> Products { get; set; }
+
 }

@@ -153,3 +153,4 @@ C:\Users\Panagiotis\Documents\Github Jensen Project\Inlämningsuppgift-Programme
 C:\Users\Panagiotis\Documents\Github Jensen Project\Inlämningsuppgift-Programmering-FortsättningDel2\bageri-api\bin\Debug\net10.0\tr\Microsoft.CodeAnalysis.Workspaces.MSBuild.resources.dll
 C:\Users\Panagiotis\Documents\Github Jensen Project\Inlämningsuppgift-Programmering-FortsättningDel2\bageri-api\bin\Debug\net10.0\zh-Hans\Microsoft.CodeAnalysis.Workspaces.MSBuild.resources.dll
 C:\Users\Panagiotis\Documents\Github Jensen Project\Inlämningsuppgift-Programmering-FortsättningDel2\bageri-api\bin\Debug\net10.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.MSBuild.resources.dll
+C:\Users\Panagiotis\Documents\Github Jensen Project\Inlämningsuppgift-Programmering-FortsättningDel2\bageri-api\obj\Debug\net10.0\bageri-api.sourcelink.json

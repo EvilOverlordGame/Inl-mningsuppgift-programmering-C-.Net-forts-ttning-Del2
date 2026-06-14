@@ -42,4 +42,15 @@ public class GenericRepository<T>(BageriContext context) : IGenericRepository<T>
     {
         context.Entry(entity).State = EntityState.Modified;
     }
+
+    public async Task<T?> FindAsync(ISpecification<T> spec)
+    {
+        return await ApplySpecification(spec).FirstOrDefaultAsync();
+    }
+
+    private IQueryable<T> ApplySpecification(ISpecification<T> spec)
+    {
+        return SpecificationValuator<T>.CreateQuery(context.Set<T>().AsQueryable(), spec);
+    }
+
 }

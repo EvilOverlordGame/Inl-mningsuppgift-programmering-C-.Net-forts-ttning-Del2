@@ -1,6 +1,6 @@
-﻿namespace bageri_api.DTOs.Suppliers;
+﻿namespace bageri_api.DTOs.Customers;
 
-public class BaseSupplierDto
+public class BaseCustomerDto
 {
     public required string CompanyName { get; set; }
     public required string PhoneNumber { get; set; }

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace bageri_api.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class NewInstall : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -53,7 +53,7 @@ namespace bageri_api.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Suppliers",
+                name: "Customers",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
@@ -68,7 +68,7 @@ namespace bageri_api.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Suppliers", x => x.Id);
+                    table.PrimaryKey("PK_Customers", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -183,16 +183,16 @@ namespace bageri_api.Data.Migrations
                 {
                     CartId = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    SupplierId = table.Column<int>(type: "INTEGER", nullable: false),
+                    CustomerId = table.Column<int>(type: "INTEGER", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Carts", x => x.CartId);
                     table.ForeignKey(
-                        name: "FK_Carts_Suppliers_SupplierId",
-                        column: x => x.SupplierId,
-                        principalTable: "Suppliers",
+                        name: "FK_Carts_Customers_CustomerId",
+                        column: x => x.CustomerId,
+                        principalTable: "Customers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -203,7 +203,7 @@ namespace bageri_api.Data.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    SupplierId = table.Column<int>(type: "INTEGER", nullable: false),
+                    CustomerId = table.Column<int>(type: "INTEGER", nullable: false),
                     ProductName = table.Column<string>(type: "TEXT", nullable: true),
                     Price = table.Column<double>(type: "REAL", nullable: false),
                     Weight = table.Column<double>(type: "REAL", nullable: false),
@@ -214,9 +214,9 @@ namespace bageri_api.Data.Migrations
                 {
                     table.PrimaryKey("PK_Products", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Products_Suppliers_SupplierId",
-                        column: x => x.SupplierId,
-                        principalTable: "Suppliers",
+                        name: "FK_Products_Customers_CustomerId",
+                        column: x => x.CustomerId,
+                        principalTable: "Customers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -228,17 +228,17 @@ namespace bageri_api.Data.Migrations
                     SalesOrderId = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     CustomerId = table.Column<int>(type: "INTEGER", nullable: false),
-                    OrderDate = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    SupplierId = table.Column<int>(type: "INTEGER", nullable: true)
+                    OrderDate = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_SalesOrders", x => x.SalesOrderId);
                     table.ForeignKey(
-                        name: "FK_SalesOrders_Suppliers_SupplierId",
-                        column: x => x.SupplierId,
-                        principalTable: "Suppliers",
-                        principalColumn: "Id");
+                        name: "FK_SalesOrders_Customers_CustomerId",
+                        column: x => x.CustomerId,
+                        principalTable: "Customers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -336,9 +336,9 @@ namespace bageri_api.Data.Migrations
                 column: "ProductId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Carts_SupplierId",
+                name: "IX_Carts_CustomerId",
                 table: "Carts",
-                column: "SupplierId");
+                column: "CustomerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_OrderItems_SalesOrderId",
@@ -346,14 +346,14 @@ namespace bageri_api.Data.Migrations
                 column: "SalesOrderId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Products_SupplierId",
+                name: "IX_Products_CustomerId",
                 table: "Products",
-                column: "SupplierId");
+                column: "CustomerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SalesOrders_SupplierId",
+                name: "IX_SalesOrders_CustomerId",
                 table: "SalesOrders",
-                column: "SupplierId");
+                column: "CustomerId");
         }
 
         /// <inheritdoc />
@@ -396,7 +396,7 @@ namespace bageri_api.Data.Migrations
                 name: "SalesOrders");
 
             migrationBuilder.DropTable(
-                name: "Suppliers");
+                name: "Customers");
         }
     }
 }

@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("bageri-api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2b5105f3d8253b2d8126a1ab90f0145793142581")]
 [assembly: System.Reflection.AssemblyProductAttribute("bageri-api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("bageri-api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
